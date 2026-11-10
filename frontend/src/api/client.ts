@@ -10,8 +10,13 @@ import {
   ProgressData
 } from '../types';
 
-const envUrl = import.meta.env.VITE_API_URL;
-export const API_BASE = envUrl ? `${envUrl.replace(/\/+$/, '')}/api` : '/api';
+let envUrl = import.meta.env.VITE_API_URL;
+if (envUrl && envUrl.includes('gapfinder-backend.onrender.com')) {
+  envUrl = 'https://gap-finder-chatbot.onrender.com';
+}
+export const API_BASE = envUrl
+  ? `${envUrl.replace(/\/+$/, '')}/api`
+  : (import.meta.env.PROD ? 'https://gap-finder-chatbot.onrender.com/api' : '/api');
 
 const api = axios.create({
   baseURL: API_BASE,
